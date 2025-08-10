@@ -20,5 +20,19 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/password', Password::class)->name('settings.password');
     Route::get('settings/appearance', Appearance::class)->name('settings.appearance');
 });
+Route::get('datos', function () {
+    return view('datos');
+})->name('datos');
+Route::get('graficos', function () {
+    return view('graficos');
+})->name('graficos');
+
+Route::get('historial', function () {
+    return view('historial');
+})->name('historial');
+
+Route::get('ayuda', function () {
+    return view('ayuda');
+})->name('ayuda');
 
 require __DIR__.'/auth.php';
