@@ -1,7 +1,17 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
-        @include('partials.head')
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{{ $title ?? config('app.name') }}</title>
+        <link rel="icon" href="/favicon.ico" sizes="any">
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700" rel="stylesheet" />
+        <script src="https://cdn.tailwindcss.com"></script>
+        <style>
+            html { font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial; }
+        </style>
+        @livewireStyles
     </head>
     <body class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 antialiased">
         <div class="flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
@@ -22,6 +32,6 @@
                 </div>
             </div>
         </div>
-        @fluxScripts
+        @livewireScripts
     </body>
 </html>

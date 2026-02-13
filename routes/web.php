@@ -22,7 +22,7 @@ Route::middleware(['auth'])->group(function () {
 });
 Route::get('datos', function () {
     return view('datos');
-})->name('datos');
+})->middleware(['auth'])->name('datos');
 Route::get('graficos', function () {
     return view('graficos');
 })->name('graficos');
