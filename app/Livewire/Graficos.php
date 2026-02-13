@@ -34,26 +34,32 @@ class Graficos extends Component
 
         // Estadísticas
         $pesoActual = $registros->last()?->peso ?? 0;
-        $pesoInicial = $registros->first()?->peso ?? 0;
+        $pesoInicial = $registros->first()?->peso ?? $usuario->peso_inicial ?? 0;
         $cambio = $pesoActual - $pesoInicial;
 
-        // Meta (puedes hacer esto configurable por usuario)
-        $meta = 70.0;
+        // Meta desde el perfil del usuario
+        $meta = $usuario->peso_objetivo ?? null;
 
         // Calcular progreso hacia la meta
-        $diferenciaTotal = abs($pesoInicial - $meta);
-        $diferenciaActual = abs($pesoActual - $meta);
-        $progreso = $diferenciaTotal > 0 ? (($diferenciaTotal - $diferenciaActual) / $diferenciaTotal) * 100 : 0;
-        $progreso = max(0, min(100, $progreso)); // Entre 0 y 100
+        $progreso = null;
+        $faltante = null;
 
-        $faltante = $pesoActual - $meta;
+        if ($meta && $pesoActual > 0) {
+            if ($usuario->peso_inicial) {
+                $diferenciaTotal = abs($usuario->peso_inicial - $meta);
+                $diferenciaActual = abs($pesoActual - $meta);
+                $progreso = $diferenciaTotal > 0 ? (($diferenciaTotal - $diferenciaActual) / $diferenciaTotal) * 100 : 0;
+                $progreso = max(0, min(100, $progreso)); // Entre 0 y 100
+            }
+            $faltante = $pesoActual - $meta;
+        }
 
         // Estimación (basada en el cambio promedio)
         $diasConRegistros = $registros->count() > 1 ?
             $registros->first()->fecha->diffInDays($registros->last()->fecha) : 0;
 
         $tasaCambioDiaria = $diasConRegistros > 0 ? $cambio / $diasConRegistros : 0;
-        $semanasEstimadas = $tasaCambioDiaria != 0 ? abs($faltante / ($tasaCambioDiaria * 7)) : 0;
+        $semanasEstimadas = ($tasaCambioDiaria != 0 && $faltante !== null) ? abs($faltante / ($tasaCambioDiaria * 7)) : 0;
 
         return view('livewire.graficos', [
             'labels' => $labels,
@@ -61,7 +67,7 @@ class Graficos extends Component
             'pesoActual' => $pesoActual,
             'cambio' => $cambio,
             'meta' => $meta,
-            'progreso' => round($progreso),
+            'progreso' => $progreso !== null ? round($progreso) : null,
             'faltante' => $faltante,
             'semanasEstimadas' => round($semanasEstimadas),
             'hayDatos' => $registros->count() > 0

@@ -43,7 +43,12 @@ class Login extends Component
         RateLimiter::clear($this->throttleKey());
         Session::regenerate();
 
-        $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
+        // Redirigir según el rol del usuario
+        if (auth()->user()->isAdmin()) {
+            $this->redirect(route('admin.dashboard', absolute: false), navigate: true);
+        } else {
+            $this->redirect(route('home', absolute: false), navigate: true);
+        }
     }
 
     /**

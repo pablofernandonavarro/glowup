@@ -6,7 +6,7 @@
             <span class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">{{ $totalRegistros }}</span>
         </div>
         @if($primerRegistro)
-            <p class="text-xs text-slate-600 dark:text-slate-400">Desde el {{ $primerRegistro->fecha->format('d \d\e F, Y') }}</p>
+            <p class="text-xs text-slate-600 dark:text-slate-400">Desde el {{ $primerRegistro->fecha->locale('es')->translatedFormat('d \d\e F, Y') }}</p>
         @else
             <p class="text-xs text-slate-600 dark:text-slate-400">No hay registros todavía</p>
         @endif
@@ -36,7 +36,7 @@
                                             </svg>
                                         </div>
                                         <div>
-                                            <div class="flex items-baseline gap-2">
+                                            <div class="flex items-baseline gap-2 flex-wrap">
                                                 <span class="text-lg font-bold">{{ $registro->peso }}</span>
                                                 <span class="text-sm text-slate-500">kg</span>
                                                 @if($registroAnterior && $diferencia != 0)
@@ -47,9 +47,23 @@
                                                         {{ $diferencia > 0 ? '+' : '' }}{{ number_format($diferencia, 1) }} kg
                                                     </span>
                                                 @endif
+                                                @if($pesoObjetivo)
+                                                    @php
+                                                        $diferenciaObjetivo = $registro->peso - $pesoObjetivo;
+                                                    @endphp
+                                                    <span class="inline-flex items-center gap-1 text-xs font-medium {{ $diferenciaObjetivo > 0 ? 'text-amber-600 dark:text-amber-400' : ($diferenciaObjetivo < 0 ? 'text-blue-600 dark:text-blue-400' : 'text-green-600 dark:text-green-400') }}">
+                                                        @if($diferenciaObjetivo > 0)
+                                                            +{{ number_format(abs($diferenciaObjetivo), 1) }} vs meta
+                                                        @elseif($diferenciaObjetivo < 0)
+                                                            -{{ number_format(abs($diferenciaObjetivo), 1) }} vs meta
+                                                        @else
+                                                            En meta ✓
+                                                        @endif
+                                                    </span>
+                                                @endif
                                             </div>
                                             <div class="text-xs text-slate-600 dark:text-slate-400">
-                                                {{ $registro->fecha->format('d \d\e F, Y') }} • {{ $registro->created_at->format('H:i') }}
+                                                {{ $registro->fecha->locale('es')->translatedFormat('d \d\e F, Y') }} • {{ $registro->created_at->format('H:i') }}
                                             </div>
                                         </div>
                                     </div>

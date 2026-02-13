@@ -101,6 +101,9 @@
                     <flux:navlist.item icon="layout-grid" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
                       {{ __('Dashboard') }}
                     </flux:navlist.item>
+                    <flux:navlist.item icon="user" :href="route('perfil')" :current="request()->routeIs('perfil')" wire:navigate>
+                      Mi Perfil
+                    </flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>
 

@@ -10,7 +10,7 @@ use Illuminate\Validation\Rules;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
-#[Layout('components.layouts.auth')]
+#[Layout('layouts.auth')]
 class Register extends Component
 {
     public string $name = '';
@@ -38,6 +38,7 @@ class Register extends Component
 
         Auth::login($user);
 
-        $this->redirect(route('dashboard', absolute: false), navigate: true);
+        // Los nuevos usuarios van al home (son usuarios normales por defecto)
+        $this->redirect(route('home', absolute: false), navigate: true);
     }
 }

@@ -15,7 +15,7 @@ class Peso extends Model
     ];
 
     protected $casts = [
-        'fecha' => 'date',
+        'fecha' => 'datetime',
         'peso' => 'decimal:1',
     ];
 

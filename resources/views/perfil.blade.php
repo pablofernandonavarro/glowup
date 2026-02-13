@@ -3,8 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <title>Datos - GlowUp</title>
+    <title>Mi Perfil - GlowUp</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700" rel="stylesheet" />
     <style>
@@ -22,24 +23,19 @@
         <header class="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-white/70 bg-white/90 dark:bg-neutral-900/80 border-b border-slate-200/70 dark:border-neutral-800">
             <div class="mx-auto max-w-screen-sm px-4 py-3 flex items-center justify-between">
                 <div class="flex items-center gap-3">
-                    <a href="{{ route('home') }}" class="tap rounded-lg p-1 hover:bg-slate-100 dark:hover:bg-neutral-800">
+                    <a href="{{ route('datos') }}" class="tap rounded-lg p-1 hover:bg-slate-100 dark:hover:bg-neutral-800">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 19l-7-7 7-7"/>
                         </svg>
                     </a>
-                    <h1 class="font-semibold text-lg">Cargar Datos</h1>
+                    <h1 class="font-semibold text-lg">Mi Perfil</h1>
                 </div>
-                <a href="{{ route('perfil') }}" class="tap rounded-lg p-1 hover:bg-slate-100 dark:hover:bg-neutral-800">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="size-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                    </svg>
-                </a>
             </div>
         </header>
 
         <!-- Contenido -->
         <main class="flex-1 mx-auto w-full max-w-screen-sm px-4 pt-5 pb-24">
-            @livewire('formulario-peso')
+            <livewire:perfil />
         </main>
 
         <!-- Bottom Tab Bar -->

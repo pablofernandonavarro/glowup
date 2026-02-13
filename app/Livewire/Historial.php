@@ -22,10 +22,13 @@ class Historial extends Component
             ->orderBy('fecha', 'asc')
             ->first();
 
+        $usuario = auth()->user();
+
         return view('livewire.historial', [
             'registros' => $registros,
             'totalRegistros' => $totalRegistros,
-            'primerRegistro' => $primerRegistro
+            'primerRegistro' => $primerRegistro,
+            'pesoObjetivo' => $usuario->peso_objetivo
         ]);
     }
 }

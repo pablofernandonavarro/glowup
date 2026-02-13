@@ -21,8 +21,13 @@
             <!-- Meta -->
             <div class="rounded-xl bg-white dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 p-3 shadow-sm">
                 <div class="text-xs text-slate-600 dark:text-slate-400 mb-1">Meta</div>
-                <div class="text-xl font-bold text-fuchsia-600 dark:text-fuchsia-400">{{ number_format($meta, 1) }}</div>
-                <div class="text-[10px] text-slate-500">kg</div>
+                @if($meta)
+                    <div class="text-xl font-bold text-fuchsia-600 dark:text-fuchsia-400">{{ number_format($meta, 1) }}</div>
+                    <div class="text-[10px] text-slate-500">kg</div>
+                @else
+                    <div class="text-xl font-bold text-slate-400">--</div>
+                    <div class="text-[10px] text-slate-500">Sin meta</div>
+                @endif
             </div>
         </section>
 
@@ -47,37 +52,54 @@
         </section>
 
         <!-- Progreso hacia la meta -->
-        <section class="rounded-2xl bg-gradient-to-br from-fuchsia-500/10 via-indigo-500/10 to-blue-500/10 dark:from-fuchsia-500/15 dark:via-indigo-500/15 dark:to-blue-500/15 border border-slate-200 dark:border-neutral-800 p-4">
-            <h3 class="text-sm font-semibold mb-3">Progreso hacia tu meta</h3>
+        @if($meta)
+            <section class="rounded-2xl bg-gradient-to-br from-fuchsia-500/10 via-indigo-500/10 to-blue-500/10 dark:from-fuchsia-500/15 dark:via-indigo-500/15 dark:to-blue-500/15 border border-slate-200 dark:border-neutral-800 p-4">
+                <h3 class="text-sm font-semibold mb-3">Progreso hacia tu meta</h3>
 
-            <!-- Barra de progreso -->
-            <div class="relative w-full h-3 bg-slate-200 dark:bg-neutral-700 rounded-full overflow-hidden mb-2">
-                <div class="absolute inset-y-0 left-0 bg-gradient-to-r from-fuchsia-500 to-indigo-500 rounded-full transition-all" style="width: {{ $progreso }}%;"></div>
-            </div>
+                @if($progreso !== null)
+                    <!-- Barra de progreso -->
+                    <div class="relative w-full h-3 bg-slate-200 dark:bg-neutral-700 rounded-full overflow-hidden mb-2">
+                        <div class="absolute inset-y-0 left-0 bg-gradient-to-r from-fuchsia-500 to-indigo-500 rounded-full transition-all" style="width: {{ $progreso }}%;"></div>
+                    </div>
 
-            <div class="flex items-center justify-between text-xs">
-                <span class="text-slate-600 dark:text-slate-400">{{ $progreso }}% completado</span>
-                <span class="font-semibold {{ $faltante > 0 ? 'text-red-600 dark:text-red-400' : 'text-green-600 dark:text-green-400' }}">
-                    @if($faltante > 0)
-                        Quedan {{ number_format($faltante, 1) }} kg
-                    @else
-                        ¡Meta alcanzada!
-                    @endif
-                </span>
-            </div>
-
-            <!-- Estimación -->
-            @if($faltante > 0 && $semanasEstimadas > 0)
-                <div class="mt-3 pt-3 border-t border-slate-200/50 dark:border-neutral-700/50">
-                    <p class="text-xs text-slate-600 dark:text-slate-400">
-                        <span class="font-semibold">Estimación:</span> Al ritmo actual, alcanzarás tu meta en
-                        <span class="text-indigo-600 dark:text-indigo-400 font-semibold">
-                            {{ $semanasEstimadas }} {{ $semanasEstimadas == 1 ? 'semana' : 'semanas' }}
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="text-slate-600 dark:text-slate-400">{{ $progreso }}% completado</span>
+                        <span class="font-semibold {{ $faltante > 0 ? 'text-red-600 dark:text-red-400' : 'text-green-600 dark:text-green-400' }}">
+                            @if($faltante > 0)
+                                Quedan {{ number_format($faltante, 1) }} kg
+                            @else
+                                ¡Meta alcanzada!
+                            @endif
                         </span>
-                    </p>
-                </div>
-            @endif
-        </section>
+                    </div>
+
+                    <!-- Estimación -->
+                    @if($faltante > 0 && $semanasEstimadas > 0)
+                        <div class="mt-3 pt-3 border-t border-slate-200/50 dark:border-neutral-700/50">
+                            <p class="text-xs text-slate-600 dark:text-slate-400">
+                                <span class="font-semibold">Estimación:</span> Al ritmo actual, alcanzarás tu meta en
+                                <span class="text-indigo-600 dark:text-indigo-400 font-semibold">
+                                    {{ $semanasEstimadas }} {{ $semanasEstimadas == 1 ? 'semana' : 'semanas' }}
+                                </span>
+                            </p>
+                        </div>
+                    @endif
+                @else
+                    <p class="text-sm text-slate-600 dark:text-slate-400">Registrá más datos para ver tu progreso</p>
+                @endif
+            </section>
+        @else
+            <section class="rounded-2xl bg-gradient-to-br from-slate-500/10 to-slate-500/15 border border-slate-200 dark:border-neutral-800 p-4">
+                <h3 class="text-sm font-semibold mb-2">Sin meta configurada</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-400 mb-3">Configurá tu peso objetivo en el perfil para ver el progreso</p>
+                <a href="{{ route('perfil') }}" class="inline-flex items-center gap-2 text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">
+                    Ir a mi perfil
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="size-3.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </section>
+        @endif
 
         <!-- Script del gráfico -->
         <script>
@@ -106,32 +128,38 @@
                 const datos = @json($datos);
                 const meta = @json($meta);
 
+                const datasets = [{
+                    label: 'Peso (kg)',
+                    data: datos,
+                    borderColor: '#a855f7',
+                    backgroundColor: 'rgba(168, 85, 247, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: '#a855f7',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 5,
+                    pointHoverRadius: 7
+                }];
+
+                if (meta) {
+                    datasets.push({
+                        label: 'Meta',
+                        data: Array(labels.length).fill(meta),
+                        borderColor: '#ec4899',
+                        borderWidth: 2,
+                        borderDash: [5, 5],
+                        fill: false,
+                        pointRadius: 0
+                    });
+                }
+
                 window.pesoChartInstance = new Chart(ctx, {
                     type: 'line',
                     data: {
                         labels: labels,
-                        datasets: [{
-                            label: 'Peso (kg)',
-                            data: datos,
-                            borderColor: '#a855f7',
-                            backgroundColor: 'rgba(168, 85, 247, 0.1)',
-                            borderWidth: 3,
-                            fill: true,
-                            tension: 0.4,
-                            pointBackgroundColor: '#a855f7',
-                            pointBorderColor: '#fff',
-                            pointBorderWidth: 2,
-                            pointRadius: 5,
-                            pointHoverRadius: 7
-                        }, {
-                            label: 'Meta',
-                            data: Array(labels.length).fill(meta),
-                            borderColor: '#ec4899',
-                            borderWidth: 2,
-                            borderDash: [5, 5],
-                            fill: false,
-                            pointRadius: 0
-                        }]
+                        datasets: datasets
                     },
                     options: {
                         responsive: true,

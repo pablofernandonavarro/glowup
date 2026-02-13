@@ -11,13 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pesos', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->decimal('peso', 5, 1);
-            $table->dateTime('fecha');
-            $table->text('notas')->nullable();
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('foto_perfil')->nullable()->after('email');
         });
     }
 
@@ -26,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pesos');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('foto_perfil');
+        });
     }
 };

@@ -33,16 +33,16 @@
                            max="500"
                            required
                            class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-lg font-semibold focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                           placeholder="75.5">
+                           placeholder="{{ $ultimoPeso ? number_format($ultimoPeso->peso, 1) : '75.5' }}">
                     <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400 font-medium">kg</span>
                 </div>
                 @error('peso') <span class="text-xs text-red-600 dark:text-red-400 mt-1">{{ $message }}</span> @enderror
             </div>
 
-            <!-- Fecha -->
+            <!-- Fecha y Hora -->
             <div>
-                <label for="fecha" class="block text-sm font-medium mb-2">Fecha</label>
-                <input type="date"
+                <label for="fecha" class="block text-sm font-medium mb-2">Fecha y Hora</label>
+                <input type="datetime-local"
                        id="fecha"
                        wire:model="fecha"
                        required
@@ -69,6 +69,53 @@
         </form>
     </section>
 
+    <!-- Objetivo y Progreso -->
+    @if($pesoObjetivo)
+        <section class="mt-5 rounded-2xl bg-gradient-to-br from-green-500/10 via-emerald-500/10 to-teal-500/10 dark:from-green-500/15 dark:via-emerald-500/15 dark:to-teal-500/15 border border-slate-200 dark:border-neutral-800 p-4">
+            <h3 class="text-sm font-semibold mb-3 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="size-4">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                Tu Objetivo
+            </h3>
+            <div class="flex items-baseline gap-2">
+                <span class="text-3xl font-bold text-green-600 dark:text-green-400">{{ $pesoObjetivo }}</span>
+                <span class="text-slate-600 dark:text-slate-400">kg</span>
+            </div>
+
+            @if($ultimoPeso && $diferencia !== null)
+                <div class="mt-3 pt-3 border-t border-slate-200 dark:border-neutral-700">
+                    @if($diferencia > 0)
+                        <p class="text-sm text-amber-600 dark:text-amber-400">
+                            Estás <strong>{{ number_format(abs($diferencia), 1) }} kg</strong> por encima del objetivo
+                        </p>
+                    @elseif($diferencia < 0)
+                        <p class="text-sm text-blue-600 dark:text-blue-400">
+                            Estás <strong>{{ number_format(abs($diferencia), 1) }} kg</strong> por debajo del objetivo
+                        </p>
+                    @else
+                        <p class="text-sm text-green-600 dark:text-green-400">
+                            ¡Alcanzaste tu objetivo! 🎉
+                        </p>
+                    @endif
+                </div>
+            @endif
+
+            @if($progreso !== null)
+                <div class="mt-3">
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-xs font-medium text-slate-700 dark:text-slate-300">Progreso</span>
+                        <span class="text-xs font-semibold text-indigo-600 dark:text-indigo-400">{{ number_format(min($progreso, 100), 1) }}%</span>
+                    </div>
+                    <div class="w-full bg-slate-200 dark:bg-neutral-700 rounded-full h-2 overflow-hidden">
+                        <div class="bg-gradient-to-r from-fuchsia-600 to-indigo-600 h-2 rounded-full transition-all duration-500"
+                             style="width: {{ min($progreso, 100) }}%"></div>
+                    </div>
+                </div>
+            @endif
+        </section>
+    @endif
+
     <!-- Último registro -->
     <section class="mt-5 rounded-2xl bg-gradient-to-br from-fuchsia-500/10 via-indigo-500/10 to-blue-500/10 dark:from-fuchsia-500/15 dark:via-indigo-500/15 dark:to-blue-500/15 border border-slate-200 dark:border-neutral-800 p-4">
         <h3 class="text-sm font-semibold mb-3 flex items-center gap-2">
@@ -82,7 +129,7 @@
                 <span class="text-3xl font-bold text-indigo-600 dark:text-indigo-400">{{ $ultimoPeso->peso }}</span>
                 <span class="text-slate-600 dark:text-slate-400">kg</span>
             </div>
-            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">{{ $ultimoPeso->fecha->format('d/m/Y') }}</p>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">{{ $ultimoPeso->fecha->format('d/m/Y H:i') }}</p>
         @else
             <div class="flex items-baseline gap-2">
                 <span class="text-3xl font-bold text-slate-400">--</span>
