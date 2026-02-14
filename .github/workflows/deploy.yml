@@ -15,10 +15,10 @@ jobs:
       - name: Deploy to Hostinger via SSH
         uses: appleboy/ssh-action@v1
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.SSH_PORT }}
+          host: ${{ secrets.GLOWUP_SSH_HOST }}
+          username: ${{ secrets.GLOWUP_SSH_USERNAME }}
+          key: ${{ secrets.GLOWUP_SSH_KEY }}
+          port: ${{ secrets.GLOWUP_SSH_POR }}
           script: |
             cd /home/u410322947/domains/tusturnos.online/glowup
             git pull origin main
