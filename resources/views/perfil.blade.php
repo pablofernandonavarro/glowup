@@ -17,7 +17,7 @@
     @livewireStyles
 </head>
 
-<body class="h-full bg-gradient-to-b from-white to-slate-50 dark:from-neutral-900 dark:to-neutral-950 text-slate-900 dark:text-slate-100">
+<body class="h-full bg-slate-50 dark:bg-neutral-950 text-slate-900 dark:text-slate-100">
     <div class="min-h-screen flex flex-col">
         <!-- Header -->
         <header class="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-white/70 bg-white/90 dark:bg-neutral-900/80 border-b border-slate-200/70 dark:border-neutral-800">
