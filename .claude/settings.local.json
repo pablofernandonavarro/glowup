@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(start http://localhost)",
+      "Bash(docker exec:*)",
+      "Bash(npm run build:*)"
+    ]
+  }
+}
