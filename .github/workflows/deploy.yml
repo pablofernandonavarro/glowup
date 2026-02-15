@@ -18,7 +18,7 @@ jobs:
           host: ${{ secrets.GLOWUP_SSH_HOST }}
           username: ${{ secrets.GLOWUP_SSH_USERNAME }}
           key: ${{ secrets.GLOWUP_SSH_KEY }}
-          port: ${{ secrets.GLOWUP_SSH_POR }}
+          port: ${{ secrets.GLOWUP_SSH_PORT }}
           script: |
             cd /home/u410322947/domains/tusturnos.online/glowup
             git pull origin main
